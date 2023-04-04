@@ -11,8 +11,11 @@ std::string Shader::dirName;
 //处理输入
 void processInput(GLFWwindow* window);
 
-int main()
+using namespace std;
+
+int main(int argc, char *argv[])
 {
+	Shader::dirName = argv[1];
 	//初始化glfw
 	glfwInit();
 

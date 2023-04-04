@@ -3,6 +3,10 @@
 #include <tool/shader.h>
 #include <iostream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <tool/stb_image.h>
 
@@ -53,7 +57,7 @@ int main()
 	//注册窗口改变大小监听
 	glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 
-	Shader ourShader("./src/08_load_texture_exercise/shader/vertex.glsl","./src/08_load_texture_exercise/shader/fragment.glsl");
+	Shader ourShader("./src/09_transform/shader/vertex.glsl","./src/09_transform/shader/fragment.glsl");
 
 	//定义顶点数据
 	float vertices[] = {
@@ -157,8 +161,15 @@ int main()
 	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
 	float factor = 0;
+	
+	//初始化单位矩阵
+	glm::mat4 trans = glm::mat4(1.0f);
 
 	
+
+	// //将矩阵传递给顶点着色器
+	// unsigned int transform = glGetUniformLocation(ourShader.ID,"transform");
+	// glUniformMatrix4fv(transform,1,GL_FALSE,glm::value_ptr(trans));
 
 	//设置渲染循环
 	while(!glfwWindowShouldClose(window))
@@ -174,6 +185,11 @@ int main()
 
 		factor = glfwGetTime();
 		ourShader.setFloat("factor",factor);
+		trans = glm::rotate(trans,glm::radians(factor),glm::vec3(0.0,0.0,1.0));
+		trans = glm::scale(trans,glm::vec3(sin(factor),0.5,0.5));
+
+		ourShader.setMat4("transform",trans);
+		trans = glm::mat4(1.0f);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D,texture1);
@@ -182,6 +198,13 @@ int main()
 		glBindTexture(GL_TEXTURE_2D,texture2);
 
 		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+
+		trans =glm::translate(trans,glm::vec3(0.5,0.0,0.0));
+		trans = glm::scale(trans,glm::vec3(sin(factor),0.5,0.5));
+		ourShader.setMat4("transform",trans);
+		trans = glm::mat4(1.0f);
+
 		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 
 		glBindVertexArray(0);

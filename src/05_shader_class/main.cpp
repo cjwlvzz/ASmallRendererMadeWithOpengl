@@ -5,7 +5,9 @@
 
 //声明窗口注册回调函数
 void framebuffer_size_callback(GLFWwindow* window,int width,int height);
+
 std::string Shader::dirName;
+
 //处理输入
 void processInput(GLFWwindow* window);
 

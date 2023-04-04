@@ -9,6 +9,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <tool/stb_image.h>
 
+#include <tool/gui.h>
+
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 std::string Shader::dirName;
@@ -22,6 +25,7 @@ int main()
 {
   glfwInit();
   // 设置主要和次要版本
+  const char* glsl_version = "#version 330";
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -41,6 +45,21 @@ int main()
     std::cout << "Failed to initialize GLAD" << std::endl;
     return -1;
   }
+
+  //--------------------
+  // 创建imgui上下文
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO();
+  (void)io;
+  //设置imgui样式
+  ImGui::StyleColorsDark();
+  //设置平台和渲染器
+  ImGui_ImplGlfw_InitForOpenGL(window,true);
+  ImGui_ImplOpenGL3_Init(glsl_version);
+
+  // -------------------------
+
+
   // 设置视口
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glEnable(GL_PROGRAM_POINT_SIZE);
@@ -122,13 +141,30 @@ int main()
     glm::vec3( 1.5f,  0.2f, -1.5f), 
     glm::vec3(-1.3f,  1.0f, -1.5f)};
 
+  float f = 0.0f;
+  ImVec4 clear_color = ImVec4(0.1,0.1,0.1,1.0);
   while (!glfwWindowShouldClose(window))
   {
     processInput(window);
 
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    
+    ImGui::Begin("Hello World");
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+    ImGui::SliderFloat("float",&f,0.0f,1.0f);
+    ImGui::ColorEdit3("clear color",(float*)&clear_color);
+    ImGui::End();
+
+    f = sin(glfwGetTime());
+
+    cout<<"f = " << f << endl;
+
     // 渲染指令
     // ... make run dir=13_model_view_projection
-    glClearColor(25.0 / 255.0, 25.0 / 255.0, 25.0 / 255.0, 1.0);
+    glClearColor(clear_color.x,clear_color.y,clear_color.z,clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     ourShader.use();
@@ -165,6 +201,9 @@ int main()
       glDrawElements(GL_TRIANGLES, boxGeometry.indices.size(), GL_UNSIGNED_INT, 0);
     }
 
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

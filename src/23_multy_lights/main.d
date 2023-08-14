@@ -1,6 +1,6 @@
-src/22_spot_light/main.o: src/22_spot_light/main.cpp include/glad/glad.h \
- include/KHR/khrplatform.h include/GLFW/glfw3.h include/tool/shader.h \
- include/glm/glm.hpp include/glm/detail/_fixes.hpp \
+src/23_multy_lights/main.o: src/23_multy_lights/main.cpp \
+ include/glad/glad.h include/KHR/khrplatform.h include/GLFW/glfw3.h \
+ include/tool/shader.h include/glm/glm.hpp include/glm/detail/_fixes.hpp \
  include/glm/detail/setup.hpp include/glm/detail/../simd/platform.h \
  include/glm/fwd.hpp include/glm/detail/qualifier.hpp \
  include/glm/detail/setup.hpp include/glm/vec2.hpp \
@@ -113,9 +113,9 @@ src/22_spot_light/main.o: src/22_spot_light/main.cpp include/glad/glad.h \
  include/glm/./ext/../detail/../detail/../detail/../detail/type_vec1.hpp \
  include/glm/./ext/../detail/../detail/../detail/../detail/type_vec1.inl \
  include/glm/./ext/../detail/../detail/../detail/../detail/func_exponential.inl \
- include/glm/./ext/../detail/../detail/../detail/../detail/../vector_relational.hpp \
- include/glm/./ext/../detail/../detail/../detail/../detail/../detail/setup.hpp \
- include/glm/./ext/../detail/../detail/../detail/../detail/../detail/func_vector_relational.inl \
+ f:\learnopengl\asmallrenderermadewithopengl\include\glm\vector_relational.hpp \
+ f:\learnopengl\asmallrenderermadewithopengl\include\glm\detail/setup.hpp \
+ f:\learnopengl\asmallrenderermadewithopengl\include\glm\detail/func_vector_relational.inl \
  include/glm/./ext/../detail/../detail/../detail/../detail/_vectorize.hpp \
  include/glm/./ext/../detail/../detail/../detail/../common.hpp \
  include/glm/./ext/../detail/../detail/../detail/../detail/_fixes.hpp \
